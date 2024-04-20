@@ -66,12 +66,12 @@ public class Book {
                 '}';
     }
 
-    public static String checkOutTo() {
+    public static String checkOut() {
 
-         return checkOutTo();
+         return "";
     }
 
-    public static int checkIn() {
-        return 0;
+    public static boolean checkIn() {
+        return true;
     }
 }

@@ -49,7 +49,7 @@ public class Main {
             System.out.println("\t2) Show checked out books");
             System.out.println("\t3) Exit");
 
-            //Creating input for option 1
+            //Creating input for user
             Scanner scanner = new Scanner(System.in);
             command = scanner.nextInt();
 
@@ -57,7 +57,7 @@ public class Main {
                 case 1:
                     do {
                         System.out.println("Here are all the available books: ");
-                        for(Book availableBooks: bookInventory) {
+                        for (Book availableBooks : bookInventory) {
 
                             System.out.println(availableBooks);
                         }
@@ -75,11 +75,25 @@ public class Main {
                         }
 
 
-
-                    } while(command != 2);
+                    } while (command != 2);
                     break;
                 case 2:
+                    String commandChecked;
+                    do {
                     System.out.println("Here are all books currently checked out: ");
+                    System.out.println("C) to check in book");
+                    System.out.println("X) to go back to the home screen");
+                    commandChecked = scanner.nextLine().toUpperCase();
+
+                        if (commandChecked.equals("C")) {
+                            System.out.println("Please enter ID of book you wish to check in");
+                            int commandBookID = scanner.nextInt();
+                            System.out.println(" is checked in");
+                        } else {
+                            System.out.println("Command not found");
+                        }
+
+                    } while (!commandChecked.equals("X"));
                     break;
                 default:
                     System.out.println("Command not found.");
