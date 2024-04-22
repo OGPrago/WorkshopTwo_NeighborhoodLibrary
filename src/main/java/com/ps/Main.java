@@ -57,48 +57,96 @@ public class Main {
 
             switch (command) {
                 case 1:
+                        //Displays list of all the available books
                     System.out.println("Here are all the available books: ");
                     for (Book availableBook : bookInventory) {
                         if (!availableBook.getIsCheckedOut()) {
                             System.out.println(availableBook);
                         }
                     }
-                    System.out.println("1) Check out a book");
-                    System.out.println("2) Back to home screen");
-                    int option = Integer.parseInt(scanner.nextLine().trim());
+                        //Ask the user if they want to check out a book or go back to the home screen
+                    System.out.println("Would you like to check out a book?");
+                    System.out.println("\t1) Yes");
+                    System.out.println("\t2) No, go back to home screen");
+                    int checkoutOption = Integer.parseInt(scanner.nextLine().trim());
 
-                    switch (option) {
+                    switch (checkoutOption) {
                         case 1:
-                            System.out.println("Please enter the ID of the book you want to check out:");
-                            int bookIdToCheckout = Integer.parseInt(scanner.nextLine().trim());
+                            boolean validBookId = false;
+                            do {
+                                System.out.println("Please enter the ID of the book you want to check out (or 0 to go back):");
+                                int bookIdToCheckout = Integer.parseInt(scanner.nextLine().trim());
 
-                            for (Book book : bookInventory) {
-                                if (book.getId() == bookIdToCheckout && !book.getIsCheckedOut()) {
-                                    System.out.println("Please enter your name to check out the book:");
-                                    String borrowerName = scanner.nextLine().trim();
-
-                                    if (book.checkOut(borrowerName)) {
-                                        System.out.println("Successfully checked out to " + borrowerName);
-                                    } else {
-                                        System.out.println("Book is already checked out.");
-                                    }
-                                    break; // Exit the loop after checking out
+                                if (bookIdToCheckout == 0) {
+                                    break;  //Go back to main menu
                                 }
-                            }
+
+                                for (Book book : bookInventory) {
+                                    if (book.getId() == bookIdToCheckout && !book.getIsCheckedOut()) {
+                                        System.out.println("Please enter your name to check out the book:");
+                                        String borrowerName = scanner.nextLine().trim();
+
+                                        if (book.checkOut(borrowerName)) {
+                                            System.out.println("Successfully checked out to " + borrowerName);
+                                        } else {
+                                            System.out.println("Book is already checked out.");
+                                        }
+                                        validBookId = true;
+                                        break; //Exit the loop after checking out
+                                    }
+                                }
+
+                                if (!validBookId) {
+                                    System.out.println("Command not found.");
+                                }
+                            } while (!validBookId);
                             break;
                         case 2:
-                            break;  // Go back to main menu
+                            break;  //Go back to main menu
                         default:
                             System.out.println("Command not found.");
                             break;
                     }
                     break;
                 case 2:
+                        //Displays list of all books checked out
                     System.out.println("Here are all books currently checked out: ");
+                    boolean hasCheckedOutBooks = false;
                     for (Book checkedOutBook : bookInventory) {
                         if (checkedOutBook.getIsCheckedOut()) {
                             System.out.println(checkedOutBook);
+                            hasCheckedOutBooks = true;
                         }
+                    }
+
+                    if (!hasCheckedOutBooks) {
+                        System.out.println("No books are currently checked out.");
+                        break;
+                    }
+
+                    System.out.println("Please select an option:");
+                    System.out.println("\tC) Check In a book");
+                    System.out.println("\tX) Go back to home screen");
+                    String checkInOption = scanner.nextLine().toUpperCase();
+
+                    switch (checkInOption) {
+                        case "C":
+                            System.out.println("Please enter the ID of the book you want to check in:");
+                            int bookIdToCheckIn = Integer.parseInt(scanner.nextLine().trim());
+
+                            for (Book book : bookInventory) {
+                                if (book.getId() == bookIdToCheckIn && book.getIsCheckedOut()) {
+                                    book.checkIn();
+                                    System.out.println("Book  ID " + bookIdToCheckIn + " has been returned and checked in.");
+                                    break;
+                                }
+                            }
+                            break;
+                        case "X":
+                            break;  //Go back to main menu
+                        default:
+                            System.out.println("Command not found.");
+                            break;
                     }
                     break;
                 case 3:
