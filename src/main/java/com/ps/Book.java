@@ -55,6 +55,33 @@ public class Book {
         this.checkedOutTo = checkedOutTo;
     }
 
+    //Checks out book
+    public boolean checkOut(String borrowerName) {
+        if (!isCheckedOut) {
+            isCheckedOut = true;
+            checkedOutTo = borrowerName;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Check in a book
+    public boolean checkIn() {
+        if (isCheckedOut) {
+            isCheckedOut = false;
+            checkedOutTo = "";
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//    //Checks availability of a book
+//    public boolean checkAvailability() {
+//        return !isCheckedOut;
+//    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -66,12 +93,4 @@ public class Book {
                 '}';
     }
 
-    public static String checkOut() {
-
-         return "";
-    }
-
-    public static boolean checkIn() {
-        return true;
-    }
 }
